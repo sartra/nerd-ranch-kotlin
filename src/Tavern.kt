@@ -36,6 +36,7 @@ private fun placeOrder(menuData: String) {
     println(message)
 
     performPurchase(price.toDouble())
+    performPurchase(price.toDouble())
 
     val phrase = if (name == "Dragon's Breath") {
         "Madrigal exclaims ${toDragonSpeak("Ah, delicious $name! IT'S GOT WHAT ADVENTURERS CRAVE!")}"
@@ -60,7 +61,6 @@ private fun toDragonSpeak(phrase: String) =
     }
 
 fun performPurchase(price: Double) {
-    displayBalance()
     pints++
     pintsLeftInCask = (pintsLeftInCask - (0.125 * pints)).toInt()
     remainingDragonsBreath = remainingDragonsBreath - (5 * 0.125)
@@ -69,16 +69,20 @@ fun performPurchase(price: Double) {
     println("Purchasing item for $price")
 
 
-    val remainingBalance = totalPurse - price
-    println("Remaining balance: ${"%.2f".format(remainingBalance)}")
-
-    val remainingGold = remainingBalance.toInt()
-    val remainingSilver = (remainingBalance % 1 * 100).roundToInt()
-    playerGold = remainingGold
-    playerSilver = remainingSilver
-    displayBalance()
+    if (totalPurse > price) {
+        val remainingBalance = totalPurse - price
+        println("Remaining balance: ${"%.2f".format(remainingBalance)}")
+        val remainingGold = remainingBalance.toInt()
+        val remainingSilver = (remainingBalance % 1 * 100).roundToInt()
+        playerGold = remainingGold
+        playerSilver = remainingSilver
+        displayBalance()
+    } else {
+        displayBalance()
+        println("GAME OVER --- You do not have enough $$$")
+    }
 }
 
 private fun displayBalance() {
-    println("Player's purse balance: Gold: $playerGold , Silver: $playerSilver, Pints: $pints, remaining Dragons Breath: $remainingDragonsBreath gallons, Pinsts left in cask: $pintsLeftInCask pints left in cask")
+    println("Player's purse balance: Gold: $playerGold , Silver: $playerSilver, Pints: $pints, remaining Dragons Breath: $remainingDragonsBreath gallons, Pints left in cask: $pintsLeftInCask pints left in cask")
 }
